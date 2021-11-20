@@ -79,6 +79,14 @@ The following link provides a good walkthrough to setup tensorflow:
 https://towardsdatascience.com/tensorflow-gpu-installation-made-easy-use-conda-instead-of-pip-52e5249374bc
 ```
 
+ ## Usage:
+ 
+ ```
+ conda install -c conda-forge jupyterlab
+ jupyter-lab
+ #open DCGAN.ipynb
+ ```
+
 ## Format code to PEP-8 standards (Important for contributing to the repo): 
  
  This repository is strictly based on *PEP-8* standards. To assert PEP-8 standards after editing your own code, use the following: 
