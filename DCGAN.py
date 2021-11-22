@@ -63,8 +63,7 @@ def load_data(data_path):
         image_single = cv2.imread(path)
         image_single = cv2.resize(image_single, (img_size, img_size))
         image_list.append(image_single)
-    # print(len(image_list))
-    # plt.imshow(cv2.cvtColor(image_single, cv2.COLOR_BGR2RGB))
+
     return image_list
 
 
@@ -109,7 +108,7 @@ x_train, img_rows, img_cols, channels = create_train_data(images)
 
 def generator_model():
     n = 8
-    # noise_input = Input([1, noise_dim])
+
     gen_model = Sequential()
     gen_model.add(Dense(n * n * 256, use_bias=False, input_shape=(noise_dim,)))
     gen_model.add(Reshape((n, n, 256)))
@@ -145,7 +144,7 @@ def generator_model():
 
 
 def discriminator_model():
-    # image_input = Input((img_rows, img_cols, channels))
+
     disc_model = Sequential()
     disc_model.add(
         Conv2D(64, (5, 5), padding="same", input_shape=(img_rows, img_cols, channels))
@@ -209,9 +208,7 @@ def train_step(images):
     noise = tf.random.normal([batch_size, noise_dim])
 
     with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
-        generated_images = generator(
-            noise, training=True
-        )  # training=True is important, sicne Dropout and BatchNorm behave differently during inference
+        generated_images = generator(noise, training=True)
 
         real_output = discriminator(images, training=True)
         fake_output = discriminator(generated_images, training=True)
@@ -252,11 +249,10 @@ def train(dataset, epochs, save_after):
             train_step(image_batch)
 
         if (epoch + 1) % save_after == 0:
-            # Produce images for the GIF as we go
+
             display.clear_output(wait=True)
             generate_and_save_images(generator, epoch + 1, seed)
 
-    # Generate after the final epoch
     display.clear_output(wait=True)
     generate_and_save_images(generator, epochs, seed)
 
@@ -265,8 +261,7 @@ def train(dataset, epochs, save_after):
 
 
 def generate_and_save_images(model, epoch, test_input):
-    # Notice `training` is set to False.
-    # This is so all layers run in inference mode (batchnorm).
+
     predictions = model(test_input, training=False)
 
     fig = plt.figure(figsize=(10, 10))
@@ -274,13 +269,9 @@ def generate_and_save_images(model, epoch, test_input):
     for i in range(predictions.shape[0]):
         plt.subplot(4, 4, i + 1)
         if predictions.shape[-1] == 3:
-            plt.imshow(
-                predictions[i] * 0.5 + 0.5
-            )  # scale image to [0, 1] floats (or you could also scale to [0, 255] ints)
+            plt.imshow(predictions[i] * 0.5 + 0.5)
         else:
-            plt.imshow(
-                predictions[i, :, :, 0] * 0.5 + 0.5, cmap="gray"
-            )  # scale image to [0, 1] floats (or you could also scale to [0, 255] ints)
+            plt.imshow(predictions[i, :, :, 0] * 0.5 + 0.5, cmap="gray")
         plt.axis("off")
     plt.suptitle(f"Epoch {epoch}")
     plt.savefig("image_at_epoch_{:04d}.png".format(epoch))
