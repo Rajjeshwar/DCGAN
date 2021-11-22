@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
 
 import numpy as np
 import pandas as pd
@@ -33,9 +31,6 @@ from keras.layers import Input
 from keras.models import Model
 
 
-# In[2]:
-
-
 img_size = 64
 noise_dim = 100
 
@@ -51,9 +46,6 @@ save_path = r"C:\Users\Desktop\Desktop\JuPyter Notebooks\GANs\SimpleGANs\DCGANS_
 optimizer = tf.keras.optimizers.Adam(0.0002, 0.5)
 
 
-# In[3]:
-
-
 def load_data(data_path):
 
     image_list = []
@@ -67,13 +59,7 @@ def load_data(data_path):
     return image_list
 
 
-# In[4]:
-
-
 images = load_data(DIR)
-
-
-# In[5]:
 
 
 def visualize_images(images):
@@ -85,9 +71,6 @@ def visualize_images(images):
 visualize_images(images)
 
 
-# In[6]:
-
-
 def create_train_data(images):
     x_train = np.array(images)
     x_train = x_train.astype("float32")
@@ -97,13 +80,7 @@ def create_train_data(images):
     return x_train, img_rows, img_cols, channels
 
 
-# In[7]:
-
-
 x_train, img_rows, img_cols, channels = create_train_data(images)
-
-
-# In[8]:
 
 
 def generator_model():
@@ -140,9 +117,6 @@ def generator_model():
     return gen_model
 
 
-# In[9]:
-
-
 def discriminator_model():
 
     disc_model = Sequential()
@@ -159,31 +133,16 @@ def discriminator_model():
     return disc_model
 
 
-# In[10]:
-
-
 generator = generator_model()
-
-
-# In[11]:
 
 
 generator.summary()
 
 
-# In[12]:
-
-
 discriminator = discriminator_model()
 
 
-# In[13]:
-
-
 discriminator.summary()
-
-
-# In[14]:
 
 
 cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
@@ -198,9 +157,6 @@ def discriminator_loss(real_output, fake_output):
 
 def generator_loss(fake_output):
     return cross_entropy(tf.ones_like(fake_output), fake_output)
-
-
-# In[15]:
 
 
 @tf.function
@@ -231,9 +187,6 @@ def train_step(images):
         )
 
 
-# In[16]:
-
-
 num_examples_to_generate = 16
 
 seed = np.random.normal(0, 1, size=(num_examples_to_generate, noise_dim))
@@ -257,9 +210,6 @@ def train(dataset, epochs, save_after):
     generate_and_save_images(generator, epochs, seed)
 
 
-# In[17]:
-
-
 def generate_and_save_images(model, epoch, test_input):
 
     predictions = model(test_input, training=False)
@@ -278,13 +228,7 @@ def generate_and_save_images(model, epoch, test_input):
     plt.show()
 
 
-# In[18]:
-
-
 train(x_train, epochs, save_after=100)
-
-
-# In[ ]:
 
 
 for x in x_train:
@@ -293,15 +237,9 @@ for x in x_train:
     break
 
 
-# In[20]:
-
-
 discriminator.save(
     r"C:\Users\Desktop\Desktop\JuPyter Notebooks\GANs\trained_checkpoint\disc_model"
 )
-
-
-# In[21]:
 
 
 generator.save(
@@ -309,14 +247,8 @@ generator.save(
 )
 
 
-# In[25]:
-
-
 import imageio
 import glob
-
-
-# In[26]:
 
 
 gif_file = "dcgan.gif"
@@ -331,12 +263,6 @@ with imageio.get_writer(gif_file, mode="I") as writer:
     writer.append_data(image)
 
 
-# In[28]:
-
-
 import tensorflow_docs.vis.embed as embed
 
 embed.embed_file(gif_file)
-
-
-# In[ ]:
