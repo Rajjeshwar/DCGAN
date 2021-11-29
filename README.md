@@ -115,6 +115,11 @@ https://towardsdatascience.com/tensorflow-gpu-installation-made-easy-use-conda-i
  black DCGAN.py
 
  ```
+ ## Dataset download
+ 
+ ```
+ https://drive.google.com/file/d/15wRbO3UjFJ3u18ZYuSdj4q37hnxRa9qP/view?usp=sharing
+ ```
  
 If you wish to change the dataset used here change the following to correctly reflect the directory in `DCGAN.py` :
 
