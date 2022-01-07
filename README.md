@@ -6,7 +6,7 @@ This image from developers.google is a perfect representation of a typican GAN a
 ![image](https://user-images.githubusercontent.com/80246631/142183155-0d3c7252-3de8-4d01-a0d3-2969d0d0fd3f.png)
 
 
-For general GAN theory please refer to *Theory.md*. 
+
 
 ## Architecture:
 
